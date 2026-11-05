@@ -1,0 +1,16 @@
+
+{
+  "modo": "SIMULACION",
+  "capital_inicial": 200.0,
+  "saldo_usd": 200.0,
+  "bitcoin": 0.0,
+  "ethereum": 0.0,
+  "patrimonio_usd": 200.0,
+  "rendimiento_pct": 0.0,
+  "ganancia_realizada_usd": 0.0,
+  "ultimo_precio_btc": 80517.0,
+  "ultimo_precio_eth": 2425.04,
+  "consultas_realizadas": 6,
+  "operaciones": [],
+  "ultima_actualizacion": "2026-11-05T03:58:47-06:00"
+}

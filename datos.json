@@ -1,16 +1,26 @@
 {
   "modo": "SIMULACION",
   "capital_inicial": 200.0,
-  "saldo_usd": 200.0,
-  "bitcoin": 0.0,
+  "saldo_usd": 180.0,
+  "bitcoin": 0.000261943468,
   "ethereum": 0.0,
-  "patrimonio_usd": 200.0,
-  "rendimiento_pct": 0.0,
+  "patrimonio_usd": 199.98,
+  "rendimiento_pct": -0.01,
   "ganancia_realizada_usd": 0,
-  "operaciones": [],
-  "ultima_actualizacion": "2026-11-05T12:09:36.982025+00:00",
-  "ultima_accion": "ESPERAR",
+  "operaciones": [
+    {
+      "tipo": "COMPRA",
+      "estado": "ABIERTA",
+      "fecha": "2026-11-05T19:58:20.564682+00:00",
+      "precio": 76276.0,
+      "cantidad_btc": 0.0002619434684566574,
+      "costo_total": 20.0,
+      "comision": 0.02
+    }
+  ],
+  "ultima_actualizacion": "2026-11-05T19:58:20.564682+00:00",
+  "ultima_accion": "COMPRA",
   "precio_maximo_btc": 80632.0,
-  "caida_actual_pct": 0.6375,
-  "caida_faltante_pct": 0.3625
+  "caida_actual_pct": 5.4023,
+  "caida_faltante_pct": 0.0
 }

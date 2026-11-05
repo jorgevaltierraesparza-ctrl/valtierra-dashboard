@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bot Valtierra IA | Dashboard</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1220;color:#e5edf7;font-family:Arial,sans-serif}
+header{background:#131f33;padding:24px;text-align:center;border-bottom:1px solid #30415b}
+h1{margin:0;color:#38d9a9}
+header p{color:#aab8cc}
+main{max-width:1100px;margin:30px auto;padding:0 18px}
+.notice{padding:13px;background:#27354b;border-radius:9px;text-align:center;color:#ffdf91}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:22px 0}
+.card{background:#18263b;padding:23px;border-radius:12px;border:1px solid #2a3e59}
+.card h3{color:#9fb3cb;font-size:14px;margin:0 0 14px}
+.value{font-size:27px;font-weight:bold}
+.green{color:#38d9a9}
+table{width:100%;border-collapse:collapse}
+th,td{padding:13px;text-align:left;border-bottom:1px solid #34455c}
+th{color:#aab8cc}
+.table-wrap{overflow-x:auto}
+footer{text-align:center;padding:25px;color:#8192aa}
+</style>
+</head>
+<body>
+<header>
+<h1>BOT VALTIERRA IA</h1>
+<p>Panel de control | Trading automatizado</p>
+</header>
+<main>
+<div class="notice">
+MODO SIMULACIÓN — Sin dinero real
+</div>
+
+<section class="grid">
+<div class="card">
+<h3>Patrimonio virtual</h3>
+<div class="value" id="patrimonio">$200.00</div>
+</div>
+<div class="card">
+<h3>Saldo disponible</h3>
+<div class="value" id="saldo">$200.00</div>
+</div>
+<div class="card">
+<h3>Rendimiento</h3>
+<div class="value green" id="rendimiento">0.00%</div>
+</div>
+<div class="card">
+<h3>Operaciones registradas</h3>
+<div class="value" id="operaciones">0</div>
+</div>
+</section>
+
+<h2>Mercado de criptomonedas</h2>
+<section class="grid">
+<div class="card">
+<h3>Bitcoin (BTC)</h3>
+<div class="value" id="btc">Sin conectar</div>
+</div>
+<div class="card">
+<h3>Ethereum (ETH)</h3>
+<div class="value" id="eth">Sin conectar</div>
+</div>
+</section>
+
+<h2>Historial de operaciones</h2>
+<div class="card table-wrap">
+<table>
+<thead>
+<tr>
+<th>Fecha</th>
+<th>Acción</th>
+<th>Criptomoneda</th>
+<th>Importe</th>
+</tr>
+</thead>
+<tbody id="historial">
+<tr><td colspan="4">Todavía no hay operaciones.</td></tr>
+</tbody>
+</table>
+</div>
+<p id="estado">Estado: esperando conexión con datos públicos.</p>
+</main>
+<footer>Valtierra IA © 2026 | Simulación educativa</footer>
+
+<script>
+const formato = n => "$" + Number(n).toLocaleString(
+  "en-US",{minimumFractionDigits:2,maximumFractionDigits:2}
+);
+
+// Datos públicos de demostración.
+// Nunca colocar claves API ni datos privados aquí.
+const demo = {
+  capital_inicial:200,
+  saldo_usd:200,
+  bitcoin:0,
+  ethereum:0,
+  operaciones:[]
+};
+
+function actualizar(d){
+  const capital=Number(d.capital_inicial)||200;
+  const saldo=Number(d.saldo_usd)||0;
+  const btc=Number(d.bitcoin)||0;
+  const eth=Number(d.ethereum)||0;
+  const ops=Array.isArray(d.operaciones)?d.operaciones:[];
+  document.getElementById("saldo").textContent=formato(saldo);
+  document.getElementById("operaciones").textContent=ops.length;
+
+  // Sin precios de mercado todavía, no se calcula
+  // una valoración real de las posiciones virtuales.
+  document.getElementById("patrimonio").textContent=
+    formato(saldo);
+  document.getElementById("rendimiento").textContent=
+    saldo===capital && btc===0 && eth===0 ? "0.00%" : "Pendiente";
+
+  document.getElementById("historial").innerHTML=
+    "<tr><td colspan='4'>Datos de demostración. Sin operaciones publicadas.</td></tr>";
+}
+
+actualizar(demo);
+
+async function consultarPrecios(){
+ try{
+  const url="https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd";
+  const r=await fetch(url);
+  if(!r.ok)throw new Error("Servicio no disponible");
+  const datos=await r.json();
+  document.getElementById("btc").textContent=formato(datos.bitcoin.usd);
+  document.getElementById("eth").textContent=formato(datos.ethereum.usd);
+  document.getElementById("estado").textContent=
+    "Precios públicos consultados. Cartera en modo demostración.";
+ }catch(e){
+  document.getElementById("estado").textContent=
+    "No se pudieron consultar los precios. Intenta más tarde.";
+ }
+}
+consultarPrecios();
+setInterval(consultarPrecios,120000);
+</script>
+</body>
+</html>

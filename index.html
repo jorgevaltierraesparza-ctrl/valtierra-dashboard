@@ -121,7 +121,33 @@ function actualizar(d){
     "<tr><td colspan='4'>Datos de demostración. Sin operaciones publicadas.</td></tr>";
 }
 
-actualizar(demo);
+
+async function cargarDatosBot() {
+  try {
+    const respuesta = await fetch(
+      "datos.json?t=" + Date.now(),
+      { cache: "no-store" }
+    );
+
+    if (!respuesta.ok) {
+      throw new Error("No se pudo cargar datos.json");
+    }
+
+    const datos = await respuesta.json();
+
+    actualizar(datos);
+
+    console.log("Datos del bot actualizados");
+  } catch (error) {
+    console.error("Error al cargar datos:", error);
+    document.getElementById("estado").textContent =
+      "No se pudieron actualizar los datos del bot.";
+  }
+}
+
+cargarDatosBot();
+setInterval(cargarDatosBot, 60000);
+
 
 async function consultarPrecios(){
  try{

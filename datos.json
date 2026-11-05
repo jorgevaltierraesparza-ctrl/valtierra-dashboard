@@ -8,6 +8,9 @@
   "rendimiento_pct": 0.0,
   "ganancia_realizada_usd": 0,
   "operaciones": [],
-  "ultima_actualizacion": "2026-11-05T04:49:10.120558+00:00",
-  "ultima_accion": "ESPERAR"
+  "ultima_actualizacion": "2026-11-05T05:30:03.636901+00:00",
+  "ultima_accion": "ESPERAR",
+  "precio_maximo_btc": 80632.0,
+  "caida_actual_pct": 0.2927,
+  "caida_faltante_pct": 0.7073
 }

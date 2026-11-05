@@ -101,25 +101,47 @@ const demo = {
   operaciones:[]
 };
 
-function actualizar(d){
-  const capital=Number(d.capital_inicial)||200;
-  const saldo=Number(d.saldo_usd)||0;
-  const btc=Number(d.bitcoin)||0;
-  const eth=Number(d.ethereum)||0;
-  const ops=Array.isArray(d.operaciones)?d.operaciones:[];
-  document.getElementById("saldo").textContent=formato(saldo);
-  document.getElementById("operaciones").textContent=ops.length;
 
-  // Sin precios de mercado todavía, no se calcula
-  // una valoración real de las posiciones virtuales.
-  document.getElementById("patrimonio").textContent=
-    formato(saldo);
-  document.getElementById("rendimiento").textContent=
-    saldo===capital && btc===0 && eth===0 ? "0.00%" : "Pendiente";
+function actualizar(d) {
+  const saldo = Number(d.saldo_usd ?? 0);
+  const patrimonio = Number(d.patrimonio_usd ?? saldo);
+  const rendimiento = Number(d.rendimiento_pct ?? 0);
+  const ops = Array.isArray(d.operaciones) ? d.operaciones : [];
 
-  document.getElementById("historial").innerHTML=
-    "<tr><td colspan='4'>Datos de demostración. Sin operaciones publicadas.</td></tr>";
+  document.getElementById("saldo").textContent = formato(saldo);
+  document.getElementById("patrimonio").textContent = formato(patrimonio);
+  document.getElementById("rendimiento").textContent =
+    rendimiento.toFixed(2) + "%";
+  document.getElementById("operaciones").textContent = ops.length;
+
+  const historial = document.getElementById("historial");
+
+  if (ops.length === 0) {
+    historial.innerHTML =
+      "<tr><td colspan='4'>Sin operaciones simuladas todavía.</td></tr>";
+  } else {
+    historial.innerHTML = "";
+
+    ops.slice().reverse().forEach(op => {
+      const fila = document.createElement("tr");
+      const valores = [
+        op.fecha || "",
+        op.tipo || "",
+        "Bitcoin",
+        formato(op.costo_total ?? op.neto_usd ?? 0)
+      ];
+
+      valores.forEach(valor => {
+        const celda = document.createElement("td");
+        celda.textContent = valor;
+        fila.appendChild(celda);
+      });
+
+      historial.appendChild(fila);
+    });
+  }
 }
+
 
 
 async function cargarDatosBot() {

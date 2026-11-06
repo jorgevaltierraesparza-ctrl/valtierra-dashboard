@@ -66,6 +66,19 @@ MODO SIMULACIÓN — Sin dinero real
 </div>
 </section>
 
+<h2>Estado del sistema</h2>
+<section class="grid">
+  <div class="card">
+    <h3>Última ejecución del bot</h3>
+    <div class="value" id="ultimaEjecucion">--</div>
+  </div>
+
+  <div class="card">
+    <h3>Estado de actualización</h3>
+    <div class="value" id="estadoBot">--</div>
+  </div>
+</section>
+
 <h2>Inteligencia del Bot</h2>
 <section class="grid">
   <div class="card">
@@ -167,6 +180,40 @@ function actualizar(d) {
     caida !== null
       ? progreso.toFixed(1) + "% del umbral de caída alcanzado"
       : "Esperando observaciones...";
+
+  
+  const fechaBot = d.ultima_actualizacion
+    ? new Date(d.ultima_actualizacion)
+    : null;
+
+  const fechaValida = fechaBot &&
+    !Number.isNaN(fechaBot.getTime());
+
+  const ultimaEjecucion = fechaValida
+    ? fechaBot.toLocaleString("es-MX", {
+        timeZone: "America/Mexico_City",
+        dateStyle: "short",
+        timeStyle: "medium"
+      })
+    : "Sin información";
+
+  const minutos = fechaValida
+    ? (Date.now() - fechaBot.getTime()) / 60000
+    : null;
+
+  const estadoBot = minutos === null
+    ? "SIN DATOS"
+    : minutos < 0
+      ? "REVISAR RELOJ"
+      : minutos <= 90
+        ? "DATOS RECIENTES"
+        : "DATOS DESACTUALIZADOS";
+
+  const elementoFecha = document.getElementById("ultimaEjecucion");
+  const elementoEstado = document.getElementById("estadoBot");
+
+  if (elementoFecha) elementoFecha.textContent = ultimaEjecucion;
+  if (elementoEstado) elementoEstado.textContent = estadoBot;
 
   const saldo = Number(d.saldo_usd ?? 0);
   const patrimonio = Number(d.patrimonio_usd ?? saldo);

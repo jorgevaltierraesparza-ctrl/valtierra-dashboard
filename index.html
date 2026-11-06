@@ -215,6 +215,42 @@ function actualizar(d) {
   if (elementoFecha) elementoFecha.textContent = ultimaEjecucion;
   if (elementoEstado) elementoEstado.textContent = estadoBot;
 
+  // Buscar la compra que sigue abierta
+  const compras = Array.isArray(d.operaciones)
+    ? d.operaciones
+    : [];
+
+  const posicion = compras.find(op =>
+    op.tipo === "COMPRA" &&
+    op.estado === "ABIERTA"
+  );
+
+  const mostrar = (id, valor) => {
+    const elemento = document.getElementById(id);
+    if (elemento) elemento.textContent = valor;
+  };
+
+  if (posicion) {
+    const entrada = Number(posicion.precio);
+    const capital = Number(posicion.costo_total);
+    const cantidad = Number(posicion.cantidad_btc);
+
+    mostrar("posEstado", "COMPRA ABIERTA");
+    mostrar("posEntrada", formato(entrada));
+    mostrar("posCapital", formato(capital));
+    mostrar("posCantidad", cantidad.toFixed(12) + " BTC");
+    mostrar("posObjetivo", formato(entrada * 1.02));
+    mostrar("posStop", formato(entrada * 0.99));
+
+  } else {
+    mostrar("posEstado", "SIN POSICIÓN");
+    mostrar("posEntrada", "--");
+    mostrar("posCapital", "--");
+    mostrar("posCantidad", "--");
+    mostrar("posObjetivo", "--");
+    mostrar("posStop", "--");
+  }
+
   const saldo = Number(d.saldo_usd ?? 0);
   const patrimonio = Number(d.patrimonio_usd ?? saldo);
   const rendimiento = Number(d.rendimiento_pct ?? 0);

@@ -48,6 +48,13 @@ MODO SIMULACIÓN — Sin dinero real
 <h3>Rendimiento</h3>
 <div class="value green" id="rendimiento">0.00%</div>
 </div>
+  
+<div class="card">
+  <h3>Ganancia / pérdida realizada</h3>
+  <div class="value" id="gananciaRealizada">--</div>
+  <p>Resultado acumulado de ventas cerradas</p>
+</div>
+
 <div class="card">
 <h3>Operaciones registradas</h3>
 <div class="value" id="operaciones">0</div>
@@ -148,10 +155,11 @@ MODO SIMULACIÓN — Sin dinero real
 <th>Acción</th>
 <th>Criptomoneda</th>
 <th>Importe</th>
+  <th>Ganancia / Pérdida</th>
 </tr>
 </thead>
 <tbody id="historial">
-<tr><td colspan="4">Todavía no hay operaciones.</td></tr>
+<tr><td colspan="5">Todavía no hay operaciones.</td></tr>
 </tbody>
 </table>
 </div>
@@ -332,28 +340,56 @@ if (indicadorResultado) {
     rendimiento.toFixed(2) + "%";
   document.getElementById("operaciones").textContent = ops.length;
 
+const gananciaRealizada = Number(d.ganancia_realizada_usd ?? 0);
+const indicadorGanancia = document.getElementById("gananciaRealizada");
+
+indicadorGanancia.textContent =
+  (gananciaRealizada >= 0 ? "+" : "-") +
+  formato(Math.abs(gananciaRealizada));
+
+indicadorGanancia.style.color =
+  gananciaRealizada >= 0 ? "#34d399" : "#f87171";
+
   const historial = document.getElementById("historial");
 
   if (ops.length === 0) {
     historial.innerHTML =
-      "<tr><td colspan='4'>Sin operaciones simuladas todavía.</td></tr>";
+     "<tr><td colspan='5'>Sin operaciones simuladas todavía.</td></tr>";
   } else {
     historial.innerHTML = "";
 
     ops.slice().reverse().forEach(op => {
       const fila = document.createElement("tr");
-      const valores = [
-        op.fecha || "",
-        op.tipo || "",
-        "Bitcoin",
-        formato(op.costo_total ?? op.neto_usd ?? 0)
-      ];
+     const ganancia = op.tipo === "VENTA"
+  ? Number(op.ganancia_usd)
+  : null;
 
-      valores.forEach(valor => {
-        const celda = document.createElement("td");
-        celda.textContent = valor;
-        fila.appendChild(celda);
-      });
+const valores = [
+  op.fecha || "",
+  op.tipo || "",
+  "Bitcoin",
+  formato(op.costo_total ?? op.neto_usd ?? 0),
+  ganancia !== null && Number.isFinite(ganancia)
+    ? (ganancia >= 0 ? "+" : "-") + formato(Math.abs(ganancia))
+    : "--"
+];
+
+   
+valores.forEach((valor, indice) => {
+  const celda = document.createElement("td");
+  celda.textContent = valor;
+
+  // Quinta columna: ganancia o perdida
+  if (indice === 4 && ganancia !== null &&
+      Number.isFinite(ganancia)) {
+    celda.style.color =
+      ganancia >= 0 ? "#34d399" : "#f87171";
+    celda.style.fontWeight = "bold";
+  }
+
+  fila.appendChild(celda);
+});
+
 
       historial.appendChild(fila);
     });

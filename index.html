@@ -98,7 +98,11 @@ MODO SIMULACIÓN — Sin dinero real
     <div class="value" id="faltante">--</div>
   </div>
 </section>
-
+<div class="card">
+  <h3>Ganancia / pérdida de posición abierta</h3>
+  <div class="value" id="resultadoAbierto">--</div>
+  <p>Resultado estimado después de comisiones</p>
+</div>
 <div class="card">
   <h3>Progreso hacia la caída del 1%</h3>
   <div style="background:#34455c;border-radius:12px;overflow:hidden;height:24px">
@@ -182,7 +186,47 @@ function actualizar(d) {
   const caida = numero(d.caida_actual_pct);
   const faltante = numero(d.caida_faltante_pct);
   const objetivo = 1;
+// Ganancia o perdida de la posicion abierta
+const operaciones = Array.isArray(d.operaciones)
+  ? d.operaciones
+  : [];
 
+const compraAbierta = operaciones.find(op =>
+  op.tipo === "COMPRA" &&
+  op.estado === "ABIERTA"
+);
+
+let resultadoAbierto = null;
+
+if (compraAbierta) {
+  const cantidad = Number(compraAbierta.cantidad_btc);
+  const costo = Number(compraAbierta.costo_total);
+  const precioActual = Number(d.ultimo_precio_btc);
+  const comision = 0.001;
+
+  if (cantidad > 0 && costo > 0 && precioActual > 0) {
+    resultadoAbierto =
+      cantidad * precioActual * (1 - comision) - costo;
+  }
+}
+// Mostrar resultado de la compra abierta
+const indicadorResultado =
+  document.getElementById("resultadoAbierto");
+
+if (indicadorResultado) {
+  if (resultadoAbierto !== null) {
+    const signo = resultadoAbierto >= 0 ? "+" : "-";
+
+    indicadorResultado.textContent =
+      signo + formato(Math.abs(resultadoAbierto));
+
+    indicadorResultado.style.color =
+      resultadoAbierto >= 0 ? "#34d399" : "#f87171";
+  } else {
+    indicadorResultado.textContent = "Sin posición abierta";
+    indicadorResultado.style.color = "#94a3b8";
+  }
+}
   document.getElementById("decision").textContent =
     d.ultima_accion || "ESPERAR";
 

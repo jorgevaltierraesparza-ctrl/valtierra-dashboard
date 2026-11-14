@@ -105,6 +105,14 @@ MODO SIMULACIÓN — Sin dinero real
     <div class="value" id="faltante">--</div>
   </div>
 </section>
+  
+<div class="card">
+  <h3>¿Por qué está esperando el bot?</h3>
+  <div id="motivoEspera" style="font-size:18px;color:#fbbf24;">
+    Consultando decisión...
+  </div>
+</div>
+
 <div class="card">
   <h3>Ganancia / pérdida de posición abierta</h3>
   <div class="value" id="resultadoAbierto">--</div>
@@ -189,6 +197,20 @@ function actualizar(d) {
     v === null || v === undefined || v === ""
       ? null
       : Number.isFinite(Number(v)) ? Number(v) : null;
+
+  
+const motivo = document.getElementById("motivoEspera");
+
+if (motivo) {
+  motivo.textContent =
+    d.motivo_espera ||
+    "Motivo de espera no disponible";
+
+  motivo.style.color =
+    d.ultima_accion === "ESPERAR"
+      ? "#fbbf24"
+      : "#34d399";
+}
 
   const maximo = numero(d.precio_maximo_btc);
   const caida = numero(d.caida_actual_pct);

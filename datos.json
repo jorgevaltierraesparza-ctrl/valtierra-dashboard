@@ -4,8 +4,8 @@
   "saldo_usd": 177.30031112,
   "bitcoin": 0.000311011488,
   "ethereum": 0.0,
-  "patrimonio_usd": 197.280311,
-  "rendimiento_pct": -1.3598,
+  "patrimonio_usd": 197.442037,
+  "rendimiento_pct": -1.279,
   "ganancia_realizada_usd": -2.699689,
   "operaciones": [
     {
@@ -144,11 +144,11 @@
       "comision": 0.02
     }
   ],
-  "ultima_actualizacion": "2026-11-15T02:27:04.924700+00:00",
-  "ultima_accion": "COMPRA",
-  "motivo_espera": "Operacion ejecutada",
-  "precio_maximo_btc": 80623.0,
-  "ultimo_precio_btc": 64242.0,
-  "caida_actual_pct": 20.318,
+  "ultima_actualizacion": "2026-11-15T02:57:33.068503+00:00",
+  "ultima_accion": "ESPERAR",
+  "motivo_espera": "Hay una compra abierta",
+  "precio_maximo_btc": 80396.0,
+  "ultimo_precio_btc": 64762.0,
+  "caida_actual_pct": 19.4462,
   "caida_faltante_pct": 0.0
 }

@@ -156,11 +156,11 @@
       "ganancia_usd": -0.3829933139853452
     }
   ],
-  "ultima_actualizacion": "2026-11-20T00:37:37.816384+00:00",
+  "ultima_actualizacion": "2026-11-20T07:47:21.242185+00:00",
   "ultima_accion": "ESPERAR",
   "motivo_espera": "Esperando recuperacion del precio",
   "precio_maximo_btc": 74920.0,
-  "ultimo_precio_btc": 62024.0,
-  "caida_actual_pct": 17.213,
+  "ultimo_precio_btc": 61690.0,
+  "caida_actual_pct": 17.6588,
   "caida_faltante_pct": 0.0
 }

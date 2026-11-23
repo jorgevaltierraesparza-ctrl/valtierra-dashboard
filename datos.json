@@ -1,11 +1,11 @@
 {
   "modo": "SIMULACION",
   "capital_inicial": 200.0,
-  "saldo_usd": 196.91731781,
-  "bitcoin": 0.0,
+  "saldo_usd": 176.91731781,
+  "bitcoin": 0.000328046498,
   "ethereum": 0.0,
-  "patrimonio_usd": 196.917318,
-  "rendimiento_pct": -1.5413,
+  "patrimonio_usd": 196.897318,
+  "rendimiento_pct": -1.5513,
   "ganancia_realizada_usd": -3.082682,
   "operaciones": [
     {
@@ -154,13 +154,22 @@
       "comision": 0.019636643329344002,
       "neto_usd": 19.617006686014655,
       "ganancia_usd": -0.3829933139853452
+    },
+    {
+      "tipo": "COMPRA",
+      "estado": "ABIERTA",
+      "fecha": "2026-11-23T01:26:57.133973+00:00",
+      "precio": 60906.0,
+      "cantidad_btc": 0.0003280464978819821,
+      "costo_total": 20.0,
+      "comision": 0.02
     }
   ],
-  "ultima_actualizacion": "2026-11-22T20:50:09.865066+00:00",
-  "ultima_accion": "ESPERAR",
-  "motivo_espera": "Esperando tendencia alcista",
-  "precio_maximo_btc": 71297.0,
-  "ultimo_precio_btc": 60605.0,
-  "caida_actual_pct": 14.9964,
+  "ultima_actualizacion": "2026-11-23T01:26:57.133973+00:00",
+  "ultima_accion": "COMPRA",
+  "motivo_espera": "Operacion ejecutada",
+  "precio_maximo_btc": 69168.0,
+  "ultimo_precio_btc": 60906.0,
+  "caida_actual_pct": 11.9448,
   "caida_faltante_pct": 0.0
 }
